@@ -1,0 +1,76 @@
+﻿@model IEnumerable<OnlineBusBookingSystem.Models.BookedListModel>
+
+@{
+    ViewBag.Title = "BookedList";
+}
+
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            Bus Booked List
+        </div>
+        <div class="card-body">
+            <table class="table example">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BusId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ReferenceNo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Qty)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Amount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>
+                        @if (Session["Role"] != null && Session["Role"].ToString() == "admin")
+                            {
+                                <th>
+                                    Action
+                                </th>
+                            }                           
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BusId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReferenceNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Qty)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            @if (Session["Role"] != null && Session["Role"].ToString() == "admin")
+                            {
+                                <td>
+                                    @Html.ActionLink("Edit","EditBookedList", new { id = item.ReferenceNo })
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
