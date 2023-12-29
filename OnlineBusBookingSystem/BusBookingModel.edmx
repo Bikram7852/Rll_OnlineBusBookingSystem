@@ -17,6 +17,7 @@
           <Property Name="Qty" Type="int" Nullable="false" />
           <Property Name="Amount" Type="int" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsCancelled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="BusList">
           <Key>
@@ -164,6 +165,7 @@
           <NavigationProperty Name="Schedule" Relationship="BusDBModel.FK_BookedList_Schedule" FromRole="BookedList" ToRole="Schedule" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="BusDBModel.FK_BookedList_User" FromRole="BookedList" ToRole="User" />
+          <Property Name="IsCancelled" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="BusList">
           <Key>
@@ -192,7 +194,7 @@
           <Property Name="BusId" Type="Int32" Nullable="false" />
           <Property Name="ScheduleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Departure" Type="DateTime" Nullable="false" />
+          <Property Name="Departure" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Arrival" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Availability" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Int32" Nullable="false" />
@@ -326,6 +328,7 @@
           <EntitySetMapping Name="BookedLists">
             <EntityTypeMapping TypeName="BusDBModel.BookedList">
               <MappingFragment StoreEntitySet="BookedList">
+                <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ScheduleId" ColumnName="ScheduleId" />
                 <ScalarProperty Name="BusId" ColumnName="BusId" />

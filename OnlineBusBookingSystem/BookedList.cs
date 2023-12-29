@@ -22,6 +22,7 @@ namespace OnlineBusBookingSystem
         public string Status { get; set; }
         public int ScheduleId { get; set; }
         public int UserId { get; set; }
+        public bool IsCancelled { get; set; }
     
         public virtual BusList BusList { get; set; }
         public virtual Schedule Schedule { get; set; }

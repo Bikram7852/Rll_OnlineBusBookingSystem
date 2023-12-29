@@ -181,10 +181,12 @@ namespace OnlineBusBookingSystem.Controllers
                     Qty = item.Qty,
                     Amount = item.Amount,
                     Status = item.Status,
+                    IsCancelled = item.IsCancelled
                 };
 
                 list.Add(blm);
             }
+            TempData["Cancelled"] = "Booking Status: Cancelled";
             return View(list);
         }
         public ActionResult CreateBookedList()
@@ -379,7 +381,8 @@ namespace OnlineBusBookingSystem.Controllers
                         Price = item.Price,
                         Location = db.LocationLists.Where(r => r.LocationId == item.FromLocationId).Select(r => r.Terminal + "," + r.City + "," + r.State).FirstOrDefault() + " - " + db.LocationLists.Where(r => r.LocationId == item.ToLocationId).Select(r => r.Terminal + "," + r.City + "," + r.State).FirstOrDefault(),
                     };
-
+                    var seatQty = db.BookedLists.Where(r => r.ScheduleId == item.ScheduleId && !r.IsCancelled).Sum(r => (int?)r.Qty) ?? 0;
+                    blm.Availability = item.Availability - seatQty;
                     list.Add(blm);
                 }
                 if (item.Departure.AddMinutes(-30) >= DateTime.Now && Session["Role"] != null && Session["Role"].ToString() != "admin")
@@ -398,6 +401,8 @@ namespace OnlineBusBookingSystem.Controllers
                         Price = item.Price,
                         Location = db.LocationLists.Where(r => r.LocationId == item.FromLocationId).Select(r => r.Terminal + "," + r.City + "," + r.State).FirstOrDefault() + " - " + db.LocationLists.Where(r => r.LocationId == item.ToLocationId).Select(r => r.Terminal + "," + r.City + "," + r.State).FirstOrDefault(),
                     };
+                    var seatQty = db.BookedLists.Where(r => r.ScheduleId == item.ScheduleId && !r.IsCancelled).Sum(r => (int?)r.Qty) ?? 0;
+                    blm.Availability = item.Availability - seatQty;
 
                     list.Add(blm);
                 }
@@ -509,7 +514,7 @@ namespace OnlineBusBookingSystem.Controllers
             model.Departure = bus.Departure;
             model.Arrival = bus.Arrival;
             model.Price = bus.Price;
-            var seatQty = db.BookedLists.Where(r => r.ScheduleId == model.ScheduleId).Sum(r => (int?)r.Qty) ?? 0;
+            var seatQty = db.BookedLists.Where(r => r.ScheduleId == model.ScheduleId && !r.IsCancelled).Sum(r => (int?)r.Qty) ?? 0;
             model.Availability = bus.Availability - seatQty;
             return View(model);
         }
@@ -703,6 +708,14 @@ namespace OnlineBusBookingSystem.Controllers
             {
                 return View();
             }
+        }
+        public ActionResult CancelBook(int ReferenceNo)
+        {
+            BookedList bus = db.BookedLists.Find(ReferenceNo);
+            bus.IsCancelled = true;
+            db.SaveChanges();
+            TempData["msg"] = "Booking cancelled successfully!";
+            return RedirectToAction("BookedList","Admin");
         }
     }
 }

@@ -24,6 +24,7 @@ namespace OnlineBusBookingSystem.Models
         public System.DateTime Arrival { get; set; }
         public string FromLocation { get; set; }
         public string ToLocation { get; set; }
+        public bool IsCancelled { get; set; }
         public IList<SelectListItem> AvailablePaymentStatus { get; set; }
     }
 }

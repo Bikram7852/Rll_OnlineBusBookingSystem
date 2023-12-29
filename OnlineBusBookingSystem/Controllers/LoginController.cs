@@ -14,14 +14,14 @@ namespace OnlineBusBookingSystem.Controllers
         BusDBEntities db = new BusDBEntities();
         public ActionResult Register()
         {
-            if (Session["Role"] != null && (Session["Role"].ToString() == "admin" || Session["Role"].ToString() == "user"))
+            if (Session["Role"] == null)
             {
-                return View(); 
+                return View();
             }
             else
             {
                 TempData["Error"] = "Please logout first to access this page!";
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
         }
         [HttpPost]
@@ -50,9 +50,9 @@ namespace OnlineBusBookingSystem.Controllers
         }
         public ActionResult Login()
         {
-            if (Session["Role"] != null && (Session["Role"].ToString() == "admin" || Session["Role"].ToString() == "user"))
+            if (Session["Role"] == null)
             {
-                return View(); 
+                return View();
             }
             else
             {

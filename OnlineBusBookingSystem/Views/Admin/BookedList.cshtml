@@ -32,11 +32,17 @@
                             @Html.DisplayNameFor(model => model.Status)
                         </th>
                         @if (Session["Role"] != null && Session["Role"].ToString() == "admin")
-                            {
-                                <th>
-                                    Action
-                                </th>
-                            }                           
+                        {
+                            <th>
+                                Action
+                            </th>
+                        }
+                        @if (Session["Role"] != null && Session["Role"].ToString() == "user")
+                        {
+                            <th>
+                                Action
+                            </th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -64,7 +70,29 @@
                             @if (Session["Role"] != null && Session["Role"].ToString() == "admin")
                             {
                                 <td>
-                                    @Html.ActionLink("Edit","EditBookedList", new { id = item.ReferenceNo })
+                                    @if (item.IsCancelled == true)
+                                    {
+                                        <h6>@TempData["Cancelled"]</h6>
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Edit", "EditBookedList", new { id = item.ReferenceNo })
+                                    }
+                                </td>
+                            }
+                            @if (Session["Role"] != null && Session["Role"].ToString() == "user")
+                            {
+                                <td>
+                                    @if (item.IsCancelled == true)
+                                    {
+                                        <h6>@TempData["Cancelled"]</h6>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("CancelBook", "Admin", new { ReferenceNo = item.ReferenceNo})">
+                                            Cancel Book
+                                        </a>
+                                    }
                                 </td>
                             }
                         </tr>
