@@ -9,5 +9,6 @@ namespace OnlineBusBookingSystem.Models
     {
         public int BusNo { get; set; }
         public string BusName { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace OnlineBusBookingSystem.Controllers
         {
             if (Session["Role"] != null && (Session["Role"].ToString() == "admin"))
             {
-                List<LocationList> bus = db.LocationLists.ToList();
+                List<LocationList> bus = db.LocationLists.Where(r => !r.IsDeleted).ToList();
                 List<LocationListModel> list = new List<LocationListModel>();
 
                 foreach (var item in bus)
@@ -147,7 +147,7 @@ namespace OnlineBusBookingSystem.Controllers
             {
                 // TODO: Add delete logic here
                 LocationList bus = db.LocationLists.Find(id);
-                db.LocationLists.Remove(bus);
+                bus.IsDeleted = true;
                 db.SaveChanges();
                 return RedirectToAction("LocationList");
             }
@@ -223,7 +223,7 @@ namespace OnlineBusBookingSystem.Controllers
         {
             if (Session["Role"] != null && (Session["Role"].ToString() == "admin"))
             {
-                List<BusList> bus = db.BusLists.ToList();
+                List<BusList> bus = db.BusLists.Where(r=>!r.IsDeleted).ToList();
                 List<BusListModel> list = new List<BusListModel>();
 
                 foreach (var item in bus)
@@ -349,7 +349,7 @@ namespace OnlineBusBookingSystem.Controllers
             {
                 // TODO: Add delete logic here
                 BusList bus = db.BusLists.Find(id);
-                db.BusLists.Remove(bus);
+                bus.IsDeleted = true;
                 db.SaveChanges();
                 return RedirectToAction("BusList");
             }
@@ -361,7 +361,7 @@ namespace OnlineBusBookingSystem.Controllers
 
         public ActionResult ScheduleList()
         {
-            List<Schedule> bus = db.Schedules.ToList();
+            List<Schedule> bus = db.Schedules.Where(r => !r.IsDeleted).ToList();
             List<ScheduleModel> list = new List<ScheduleModel>();
 
             foreach (var item in bus)
@@ -414,12 +414,12 @@ namespace OnlineBusBookingSystem.Controllers
         public ActionResult CreateScheduleList()
         {
             ScheduleModel model = new ScheduleModel();
-            model.AvailableLocation = db.LocationLists.Select(r => new SelectListItem()
+            model.AvailableLocation = db.LocationLists.Where(r => !r.IsDeleted).Select(r => new SelectListItem()
             {
                 Text = r.Terminal + "," + r.City + "," + r.State,
                 Value = r.LocationId.ToString()
             }).ToList();
-            model.AvailableBus = db.BusLists.Select(r => new SelectListItem()
+            model.AvailableBus = db.BusLists.Where(r => !r.IsDeleted).Select(r => new SelectListItem()
             {
                 Text = r.BusNo + " | " + r.BusName,
                 Value = r.BusNo.ToString()
@@ -433,12 +433,12 @@ namespace OnlineBusBookingSystem.Controllers
         {
             try
             {
-                model.AvailableLocation = db.LocationLists.Select(r => new SelectListItem()
+                model.AvailableLocation = db.LocationLists.Where(r => !r.IsDeleted).Select(r => new SelectListItem()
                 {
                     Text = r.Terminal + "," + r.City + "," + r.State,
                     Value = r.LocationId.ToString()
                 }).ToList();
-                model.AvailableBus = db.BusLists.Select(r => new SelectListItem()
+                model.AvailableBus = db.BusLists.Where(r => !r.IsDeleted).Select(r => new SelectListItem()
                 {
                     Text = r.BusNo + " | " + r.BusName,
                     Value = r.BusNo.ToString()
@@ -649,7 +649,7 @@ namespace OnlineBusBookingSystem.Controllers
             {
                 // TODO: Add delete logic here
                 Schedule bus = db.Schedules.Find(id);
-                db.Schedules.Remove(bus);
+                bus.IsDeleted = true;
                 db.SaveChanges();
                 return RedirectToAction("ScheduleList");
             }

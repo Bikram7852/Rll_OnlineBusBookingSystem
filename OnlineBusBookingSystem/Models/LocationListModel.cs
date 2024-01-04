@@ -11,5 +11,6 @@ namespace OnlineBusBookingSystem.Models
         public string Terminal { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

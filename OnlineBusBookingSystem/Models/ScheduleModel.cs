@@ -48,6 +48,7 @@ namespace OnlineBusBookingSystem.Models
         public string Location { get; set; }
         public string FromLocation { get; set; }
         public string ToLocation { get; set; }
+        public bool IsDeleted { get; set; }
         public IList<SelectListItem> AvailableLocation { get; set; }
         public IList<SelectListItem> AvailableBus { get; set; }
     }

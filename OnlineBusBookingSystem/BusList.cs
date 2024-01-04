@@ -23,6 +23,7 @@ namespace OnlineBusBookingSystem
     
         public int BusNo { get; set; }
         public string BusName { get; set; }
+        public bool IsDeleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BookedList> BookedLists { get; set; }
