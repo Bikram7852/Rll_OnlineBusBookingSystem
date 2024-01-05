@@ -41,6 +41,7 @@ namespace OnlineBusBookingSystem.Controllers
                 user.Role = "user";
                 db.Users.Add(user);
                 db.SaveChanges();
+                TempData["msg"] = "Registered successfully!";
                 return RedirectToAction("Login");
             }
             catch
